@@ -1,0 +1,438 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<html lang="">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="generator" content="Soundboard Retour Vers Le Futur" />
+	<title>Soundboard Retour Vers Le Futur</title>
+	<!-- Place favicon.ico in the `app/` directory -->
+
+	<!-- CSS link to load the load-spinner first ! --> 
+	<link rel="stylesheet" href="styles/loader.css">
+
+	<!-- Chrome for Android theme color -->
+	<meta name="theme-color" content="#2196f3">
+
+	<!-- Web Application Manifest -->
+	<link rel="manifest" href="manifest.json">
+
+	<!-- Tile color for Win8 -->
+	<meta name="msapplication-TileColor" content="#2196f3">
+
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Soundboard BTTF">
+	<link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+	<!-- Add to homescreen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Soundboard Retour Vers Le Futur">
+	<link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+	<!-- Tile icon for Win8 (144x144) -->
+	<meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
+	<!-- build:css styles/main.css -->
+	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/animate.css">
+	<!-- endbuild-->
+
+	<!-- Import are made later : HTML is first parsed and then required files are imported => No more white screen  -->
+    
+
+</head>
+
+<body>
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+
+	<template is="dom-bind" id="app" class="hidden" unresolved>
+		<div class="appCordova">
+			<span id="browser-sync-binding"></span>
+
+			<paper-drawer-panel id="paperDrawerPanel">
+				<!-- Drawer Scroll Header Panel -->
+				<paper-scroll-header-panel drawer>
+
+					<!-- Drawer Toolbar -->
+					<paper-toolbar class="tall">
+				    </paper-toolbar>
+
+					<!-- Drawer Content -->
+					<paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+						<a data-route="BTTF1" href="/android_asset/www/index.html" on-click="onDataRouteClick">
+							<iron-icon icon="home"></iron-icon>
+							<span>Retour Vers Le Futur</span>
+						</a>
+
+						<a data-route="BTTF2" href="/BTTF2" on-click="onDataRouteClick">
+							<iron-icon icon="info"></iron-icon>
+							<span>Retour Vers Le Futur 2</span>
+						</a>
+
+						<a data-route="BTTF3" href="/BTTF3" on-click="onDataRouteClick">
+							<iron-icon icon="mail"></iron-icon>
+							<span>Retour Vers Le Futur 3</span>
+						</a>
+
+						<a data-route="Search" href="/Search" on-click="onDataRouteClick">
+							<iron-icon icon="search"></iron-icon>
+							<span>Rechercher</span>
+						</a>
+					</paper-menu>
+				</paper-scroll-header-panel>
+
+				<!-- Main Area -->
+				<paper-scroll-header-panel main condenses>
+
+					<!-- Main Toolbar -->
+					<paper-toolbar id="mainToolbar" class="tall">
+						<paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+						<span class="flex"></span>
+
+						<!-- Application name -->
+						<div class="middle middle-container center horizontal layout">
+							<div class="app-name">Retour Vers Le Futur Soundboard</div>
+						</div>
+
+						<!-- Application sub title -->
+						<div class="bottom bottom-container center horizontal layout">
+							<div class="bottom-title paper-font-subhead">Fait avec ♥ pour les fans de Marty !</div>
+						</div>
+
+					</paper-toolbar>
+
+					<!-- Main Content -->
+					<div class="content">
+						<iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+							<section data-route="BTTF1">
+								<sound-board size="1" nom="BTTF1"></sound-board>
+							</section>
+
+							<section data-route="BTTF2">
+								 <sound-board size="1" nom="BTTF2"></sound-board>
+							</section>
+
+
+							<section data-route="BTTF3">
+								<sound-board size="1" nom="BTTF3"></sound-board>
+							</section>
+
+							<section data-route="Search">
+								<paper-card id="interest" class='fancy'>
+									<div class="card-content">
+										<div class="avatar"><iron-icon class="big_icon" icon="social:people" item-icon></iron-icon></div>
+										<div class="title">
+											<div id="intitule" class="big">Retour Vers Le Futur 1, 2 et 3</div>
+										</div>
+										<div class="flex">
+
+											<!-- <input type="email" class="form-control input-lg"  placeholder="Sart type 'a' ...."> -->
+											<paper-input type="search" id="search" label="Rechercher un son"></paper-input>
+											<div id="results"></div>
+
+										</div>  
+									</div>
+								</paper-card>
+								
+							</section>
+
+						</iron-pages>
+					</div>
+				</paper-scroll-header-panel>
+			</paper-drawer-panel>
+
+			<!-- Uncomment next block to enable Service Worker support (1/2) -->
+			<!--
+			<paper-toast id="caching-complete"
+									 duration="6000"
+									 text="Caching complete! This app will work offline.">
+			</paper-toast>
+
+			<platinum-sw-register auto-register
+														clients-claim
+														skip-waiting
+														on-service-worker-installed="displayInstalledToast">
+				<platinum-sw-cache default-cache-strategy="fastest"
+													 cache-config-file="cache-config.json">
+				</platinum-sw-cache>
+			</platinum-sw-register>
+			-->
+
+		</template>
+	</div>
+
+	<!-- build:js scripts/app.js -->
+
+	<!-- Loading of the required files only now (for explanation, see the line 25) -->
+	<!-- 1. Load webcomponents-lite.min.js for polyfill support. -->
+    <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
+	<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<!-- endbuild -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+
+    <!--<script src="js/jquery.waypoints.min.js"></script> -->
+
+	<link rel="import" href="elements/elements.html">
+	<!-- endreplace-->
+
+	<!-- For shared styles, shared-styles.html import in elements.html -->
+
+	<!-- Remove this for the Cordova version !!!!!!! TODO -->
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+            appCordova.initialize();
+    </script>
+	<!-- endbuild -->
+
+ 	
+		
+    <script>
+      
+		/**
+		* function that detect if the user is browsing on IE or Edge or not
+		*/
+		function detectIE() {
+			var ua = window.navigator.userAgent;
+
+			// test values
+			// IE 10
+			//ua = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+			// IE 11
+			//ua = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
+			// IE 12 / Spartan
+			//ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
+
+			var msie = ua.indexOf('MSIE ');
+			if (msie > 0) {
+				// IE 10 or older => return version number
+				return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+			}
+
+			var trident = ua.indexOf('Trident/');
+			if (trident > 0) {
+				// IE 11 => return version number
+				var rv = ua.indexOf('rv:');
+				return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+			}
+
+			var edge = ua.indexOf('Edge/');
+			if (edge > 0) {
+				// IE 12 => return version number
+				return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+			}
+
+			// other browser
+			return false;
+		}
+			
+		//When page is fully load, we can display it and hide the loader
+		$(document).ready(function() {
+			document.addEventListener('WebComponentsReady', function() {
+				setTimeout(function () {
+						$('#app').removeClass('hidden');
+						$('body').addClass('loaded');
+				}, 2000);
+			});
+    	});	
+		
+	
+		// To ensure that elements are ready on polyfilled browsers, 
+	    // wait for WebComponentsReady. 
+	    document.addEventListener('WebComponentsReady', function() {
+			var IEversion = detectIE();
+			if (IEversion) {
+				document.querySelector('#toastIE').show();
+				var css = document.createElement("style");
+				css.type = "text/css";
+				css.innerHTML = "#notinfo { max-width: calc(100% - 400px); } #info { min-width: 403px !important; } @media (max-width: 1020px) { #notinfo { max-width: 100%; } #info { min-width: 100% !important; } } #info { min-width: 403px !important; } #notinfo { max-width: calc(100% - 400px); } @media (max-width: 1020px) { #info { min-width: 100% !important; } #notinfo { max-width: 100%; } }";
+				document.body.appendChild(css);
+			} 
+		});
+
+    </script>
+
+    <script type="text/javascript">
+
+    	//var getaudio = $('#player')[0];
+		/* Get the audio from the player (using the player's ID), the [0] is necessary */
+		var mouseovertimer;
+		/* Global variable for a timer. When the mouse is hovered over the speaker it will start playing after hovering for 1 second, if less than 1 second it won't play (incase you accidentally hover over the speaker) */
+		var audiostatus = 'off';
+		/* Global variable for the audio's status (off or on). It's a bit crude but it works for determining the status. */
+
+		$(document).on('click', '.speaker', function() {
+
+			/* Touchend is necessary for mobile devices, click alone won't work */
+			var idAudio = this.id;
+
+			var idAudioPause = idAudio;
+			var patt = new RegExp("_pause");
+			if (patt.test(idAudio)) {
+				//alert(idAudio);
+				idAudio = idAudio.replace("_pause","");
+				//alert(idAudio);
+			};
+
+			var idAudioPlay = idAudio;
+
+			idAudio = idAudio + '_mp3';
+
+			//alert(idAudio);    //Debbuggage
+			var getaudio = document.getElementById(idAudio);
+
+			var obj = document.getElementById(idAudioPause+'_pause');
+			var obj2 = document.getElementById(idAudioPause);
+			var obj3 = document.getElementById(idAudioPlay);
+
+			getaudio.onended = function() {
+				// $('.speaker').removeClass('speakerplay');
+				obj.className = obj.className.replace( /(?:^|\s)speakerplay(?!\S)/g , '' );
+				obj.className +=' cache';
+				obj2.className = obj2.className.replace( /(?:^|\s)cache(?!\S)/g , '' );
+				/*When the audio has finished playing, remove the class speakerplay*/
+				audiostatus = 'off';
+			};
+
+
+
+			if (!$('.speaker').hasClass("speakerplay")) {
+				if (audiostatus == 'off') {
+
+					obj.className +=' speakerplay';
+					getaudio.load();
+					obj2.className +=' cache';
+
+					obj.className = obj.className.replace( /(?:^|\s)cache(?!\S)/g , '' );
+					getaudio.play();
+					audiostatus = 'on';
+					return false;
+				} else if (audiostatus == 'on') {
+					obj.className +=' speakerplay';
+					obj2.className +=' cache';
+					obj.className = obj.className.replace( /(?:^|\s)cache(?!\S)/g , '' );
+					getaudio.play();
+				}
+
+			} else if ($('.speaker').hasClass("speakerplay")) {
+				getaudio.pause();
+
+				getaudio.load();
+
+				obj2.className = obj2.className.replace( /(?:^|\s)speakerplay(?!\S)/g , '' );
+				obj2.className +=' cache';
+				obj3.className = obj3.className.replace( /(?:^|\s)cache(?!\S)/g , '' );
+
+				audiostatus = 'on';
+			}
+
+		});
+	</script>
+
+	<script type="text/javascript">
+
+	$(document).ready(function() {
+		document.addEventListener('WebComponentsReady', function() {
+			//console.log("loaded");
+			$('#search').keyup(function(){
+				//console.log("keyup");
+				var searchField = $('#search').val();
+				var myExp = new RegExp(searchField, "i");
+				var output = '';
+				var style = 'style=\"-webkit-animation-delay: '+(compteur/10)+'s; animation-delay: '+(compteur/10)+'s;\"';
+				var count = 1;
+				var compteur = 0;
+				$.getJSON('filesname.json', function(data) {
+					// console.log("Data:");
+					// console.log(data);
+					$.each(data, function(key, val){
+						$.each(val, function(key2, val2){
+							// console.log("key2:val2");
+							// console.log(key2 + " " + val2);
+							// console.log(val2);
+
+							if ((val2.search(myExp) != -1) || (key2.search(myExp) != -1)) {
+
+								if (compteur % 2 == 0) {
+					            	output += "<div class=\"horizontal layout\" style=\"height:100%\">";
+					            };
+					          
+					            output +=
+					            '<div class=\"sound flex\" style=\"-webkit-animation-delay: '+(compteur/10)+'s; animation-delay: '+(compteur/10)+'s;\">' +
+					              '<div>'+val2+'</div>' +
+					                '<paper-fab noink icon=\"av:play-arrow\" class=\"speaker\" id=\"'+key2+'_search'+'\"></paper-fab>' +
+					                '<paper-fab noink icon=\"av:pause\" class=\"speaker cache\" id=\"'+key2+'_search'+'_pause\"></paper-fab>' +
+					                '<audio class=\"player\" id=\"'+key2+'_search'+'_mp3\">' +
+					                  '<source src=\"mp3/'+key2+'.mp3\" type=\"audio/mp3\" />' +
+					                '</audio>' +
+					            '</div>';
+
+					            compteur=compteur + 1;
+
+					            if (compteur % 2 == 0) {
+					            	output += "</div>";
+					            };
+
+							
+							}
+						});
+						//console.log("key:val");
+						//console.log(key + " " + val);
+					});
+					output += '</div>';
+					$('#results').html(output);
+				}); 
+			
+			setTimeout(function () {
+				$(".sound").addClass("animated fadeInUp");
+			}, 25);
+			
+			});
+			
+		});
+	});
+
+	</script>
+
+	<script type="text/javascript">
+
+
+	function lol() {
+		setTimeout(function () {
+				//$(".sound").addClass("animated fadeInUp");
+				console.log("start");
+
+				$('.sound').waypoint(function() {
+				$(this).addClass("animated fadeInUp");
+				},
+				{ offset: '50%' });
+
+				console.log("end");
+			}, 1000);
+	}
+	</script>
+
+	<script src="scripts/app.js"></script>
+	
+</body>
+
+</html>
